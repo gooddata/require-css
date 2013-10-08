@@ -202,6 +202,16 @@ define(['./normalize'], function(normalize) {
             createStyleSheet();
         }
         cssStyleSheet.addImport(url);
+
+        var importedStyleSheet = cssStyleSheet.imports[cssStyleSheet.imports.length - 1];
+
+        var loadInterval = setInterval(function() {
+            try {
+                (importedStyleSheet.cssRules || importedStyleSheet.rules).length;
+                clearInterval(loadInterval);
+                callback();
+            } catch (e){}
+        }, 10);
     }
   }
 
